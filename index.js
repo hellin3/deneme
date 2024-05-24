@@ -1,14 +1,21 @@
 $(document).ready(function() {
     $("#moreAboutBtn").click(function() {
-        $.ajax({
-            url: "extra_info.json",
-            dataType: "json",
-            success: function(data) {
-                $(".intro-text").text(data.extraInfo);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching data:", error);
-            }
-        });
+        var filename = "extra_info.json"; // JSON dosyanızın adı
+        consumeJSON(filename);
     });
 });
+
+function consumeJSON(jsonFileURL) {
+    $.ajax({
+        url: jsonFileURL,
+        dataType: "json",
+        success: function(data) {
+            // JSON dosyasından alınan bilgileri sayfada güncelle
+            $(".intro-text").html(data.extraInfo);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error loading JSON:', textStatus, errorThrown); // Hata mesajını konsola yazdır
+            alert('Error loading data from ' + jsonFileURL);
+        }
+    });
+}
